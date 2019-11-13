@@ -14,8 +14,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,10 +41,15 @@ public class ControllerClass {
 	   return builder.build();
 	}
 	
+	@RequestMapping(path="/health")
+	public HttpStatus getHealth() {
+		return HttpStatus.OK;
+	}
+	
 	@Autowired
 	RestTemplate restTemplate;
 	
-	
+	@CrossOrigin("http://localhost:8080")
 	@RequestMapping(path="/getGroupsData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> getData1(@RequestParam String str) {
 		UriTemplate uri = new UriTemplate(signUpGeniusUrl+"&sort={sort}") ;
